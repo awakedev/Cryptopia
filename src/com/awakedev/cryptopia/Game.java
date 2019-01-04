@@ -3,18 +3,23 @@ package com.awakedev.cryptopia;
 // Imports
  
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
+
+import com.awakedev.cryptopia.graphics.Screen;
+import com.awakedev.cryptopia.input.Keyboard;
 
 // Game inherits Canvas (subclass of Canvas)
 
 public class Game extends Canvas implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
+	public static  String title = "Cryptopia";
 	// Creating window and defining resolutions & scale.
 	
 	public static int width = 300;
@@ -25,15 +30,25 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private JFrame frame;
 	private boolean running = false;
+	private Keyboard key;
 	
+	private Screen screen;
+	
+	// Image with Buffer :: Final rendered view
+	private BufferedImage image = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
+	
+	// Accessing image
+	private int [] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	
 	// Game constructor 
-	
 	public Game () {
 		Dimension size = new Dimension(width*scale, height*scale);
 		setPreferredSize(size);
-		
+		screen = new Screen(width,height);
 		frame = new JFrame();
+		key = new Keyboard();
+		
+		addKeyListener(key);
 	}
 	
 	
@@ -57,20 +72,45 @@ public class Game extends Canvas implements Runnable {
 
 
 	// Game loop
-	
 	public void run() {
-		while (running) {
-			
 		
-			update();
+		// Ensuring time is precise
+		long lastTime = System.nanoTime();
+		long timer = System.currentTimeMillis();
+		final double ns = 1000000000.0 / 60.0;
+		double delta = 0;
+		int frames = 0;
+		int updates = 0;
+		while (running) {
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime = now;
+			while (delta >= 1) {
+				update();
+				updates++;
+				delta--;
+			}
 			render();
-			
-			
+			frames++;
+			if (System.currentTimeMillis() - timer > 1000)	{
+				timer += 1000;	
+				System.out.println(updates + " ups, " + frames + " fps");
+				frame.setTitle(title + "  |  " + updates + " ups, " + frames + " fps");
+				updates = 0;
+				frames = 0;
+			}
 		}	
+		stop();
 	} 
 	
-	
+	int x = 0, y = 0;
 	public void update() {
+		key.update();
+		if (key.up) y--;
+		if (key.down) y++;
+		if (key.right) x++;
+		if (key.left) x--;
+	
 		
 	}
 	
@@ -83,12 +123,17 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		
+		screen.clear();
+		screen.render(x,y);
+		
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = screen.pixels[i];
+		}
+		
 		Graphics g = bs.getDrawGraphics();
 		{
-			g.setColor(Color.BLACK);
-			// Filling rectangle starting at top left corner
-			// Get width and height methods return size of screen
-			g.fillRect(0, 0, getWidth(), getHeight());
+			
+			g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		}
 		
 		// Removing graphics by disposing
@@ -97,15 +142,15 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 	
+	
 	// Main method (Entry point)
 	
 	public static void main (String[] args) {
 		
 		// Object of game with instance
-		
 		Game game = new Game();
 		game.frame.setResizable(false);
-		game.frame.setTitle("Cryptopia");
+		game.frame.setTitle(Game.title);
 		
 		// Adding game component to window
 		game.frame.add(game);
@@ -116,6 +161,8 @@ public class Game extends Canvas implements Runnable {
 		game.frame.setLocationRelativeTo(null);
 		game.frame.setVisible(true);
 		game.start();
+		
+		game.requestFocus();
 	}
 	
 	
