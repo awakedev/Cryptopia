@@ -3,7 +3,10 @@ package com.awakedev.cryptopia;
 // Imports
  
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
@@ -11,6 +14,7 @@ import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable {
 	
+	private static final long serialVersionUID = 1L;
 	// Creating window and defining resolutions & scale.
 	
 	public static int width = 300;
@@ -55,10 +59,43 @@ public class Game extends Canvas implements Runnable {
 	// Game loop
 	
 	public void run() {
-		while (running = true) {
+		while (running) {
+			
+		
+			update();
+			render();
+			
 			
 		}	
 	} 
+	
+	
+	public void update() {
+		
+	}
+	
+	public void render() {
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null) {
+			
+			// 3 Buffers for speed improvements
+			createBufferStrategy(3);
+			return;
+		}
+		
+		Graphics g = bs.getDrawGraphics();
+		{
+			g.setColor(Color.BLACK);
+			// Filling rectangle starting at top left corner
+			// Get width and height methods return size of screen
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
+		
+		// Removing graphics by disposing
+		g.dispose();
+		
+		bs.show();
+	}
 	
 	// Main method (Entry point)
 	
@@ -72,12 +109,16 @@ public class Game extends Canvas implements Runnable {
 		
 		// Adding game component to window
 		game.frame.add(game);
-		
 		game.frame.pack();
 		
 		// End application when exit button clicked
 		game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		game.frame.setLocationRelativeTo(null);
+		game.frame.setVisible(true);
+		game.start();
 	}
+	
+	
 	
 	
 	
