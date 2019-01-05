@@ -2,14 +2,14 @@ package com.awakedev.cryptopia.graphics;
 
 public class Sprite {
 
-	private final int SIZE;
+	public final int SIZE;
 	private int x, y;
 	public int[] pixels;
 	private SpriteSheet sheet;
 	
 	
 	// Creating new static instance of Sprite class for the grass
-	public static Sprite grass = new Sprite(16, 4, 2, null);
+	public static Sprite grass = new Sprite(16, 3, 6, SpriteSheet.tiles);
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
