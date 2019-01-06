@@ -3,7 +3,9 @@ package com.awakedev.cryptopia;
 // Imports
  
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.awakedev.cryptopia.entity.mob.Player;
 import com.awakedev.cryptopia.graphics.Screen;
 import com.awakedev.cryptopia.input.Keyboard;
 import com.awakedev.cryptopia.level.Level;
@@ -34,6 +37,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private Keyboard key;
 	private Level level;
+	private Player player;
 	
 	private Screen screen;
 	
@@ -51,6 +55,7 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = new RandomLevel(64, 64);
+		player = new Player(key);
 		
 		addKeyListener(key);
 	}
@@ -108,16 +113,13 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	} 
 	
-	int x = 0, y = 0;
+	
 	public void update() {
 		key.update();
-		if (key.up) y++;
-		if (key.down) y--;
-		if (key.right) x--;
-		if (key.left) x++;
-	
+		player.update();
 		
 	}
+	
 	
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
@@ -129,21 +131,20 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		screen.clear();
-		level.render(x, y, screen);
+		level.render(player.x, player.y, screen);
+		player.render(screen);
 		
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
 		
 		Graphics g = bs.getDrawGraphics();
-		{
-			
-			g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		}
-		
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Verdana", 0, 50));
+		g.drawString("X: " + player.x + ", Y: " + player.y, 350, 300);
 		// Removing graphics by disposing
 		g.dispose();
-		
 		bs.show();
 	}
 	
