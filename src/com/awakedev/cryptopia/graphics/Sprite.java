@@ -10,6 +10,8 @@ public class Sprite {
 	
 	// Creating new static instance of Sprite class for the grass
 	public static Sprite grass = new Sprite(16, 3, 6, SpriteSheet.tiles);
+	public static Sprite voidSprite = new Sprite(16, 0xffffff);
+
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
@@ -20,6 +22,21 @@ public class Sprite {
 		load();
 		
 	}
+	
+	public Sprite(int size, int colour) {
+		SIZE = size;
+		pixels = new int [SIZE * SIZE];
+		setColour(colour);
+		
+	}
+	
+	private void setColour(int colour) {
+		for (int i = 0; i < SIZE*SIZE; i++) {
+			pixels[i] = colour;	
+		}
+		
+	}
+
 	
 	private void load()	{
 		for (int y = 0; y < SIZE; y++) {
