@@ -10,8 +10,11 @@ public class Sprite {
 	
 	// Creating new static instance of Sprite class for the grass
 	public static Sprite grass = new Sprite(16, 3, 6, SpriteSheet.tiles);
-	public static Sprite voidSprite = new Sprite(16, 0xffffff);
+	public static Sprite flower = new Sprite(16, 2, 11, SpriteSheet.tiles);
+	public static Sprite rock = new Sprite(16, 3, 10, SpriteSheet.tiles);
 	
+	public static Sprite voidSprite = new Sprite(16, 0xffffff);
+
 
 	
 	public static Sprite player_f = new Sprite(32, 6, 0, SpriteSheet.tiles);
