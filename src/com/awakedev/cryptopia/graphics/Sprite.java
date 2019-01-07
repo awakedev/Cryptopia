@@ -14,12 +14,23 @@ public class Sprite {
 	
 
 	
-	public static Sprite player_f = new Sprite(32, 6, 1, SpriteSheet.tiles);
-	public static Sprite player_w = new Sprite(32, 6, 0, SpriteSheet.tiles);
+	public static Sprite player_f = new Sprite(32, 6, 0, SpriteSheet.tiles);
+	public static Sprite player_w = new Sprite(32, 6, 1, SpriteSheet.tiles);
 	public static Sprite player_e = new Sprite(32, 6, 2, SpriteSheet.tiles);
 	public static Sprite player_b = new Sprite(32, 6, 3, SpriteSheet.tiles);
 
+	public static Sprite player_f_1 = new Sprite(32, 5, 0, SpriteSheet.tiles);
+	public static Sprite player_f_2 = new Sprite(32, 7, 0, SpriteSheet.tiles);
+
+	public static Sprite player_w_1 = new Sprite(32, 5, 1, SpriteSheet.tiles);
+	public static Sprite player_w_2 = new Sprite(32, 7, 1, SpriteSheet.tiles);
+
+	public static Sprite player_e_1 = new Sprite(32, 5, 2, SpriteSheet.tiles);
+	public static Sprite player_e_2 = new Sprite(32, 7, 2, SpriteSheet.tiles);
 	
+	public static Sprite player_b_1 = new Sprite(32, 5, 3, SpriteSheet.tiles);
+	public static Sprite player_b_2 = new Sprite(32, 7, 3, SpriteSheet.tiles);
+
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
 		pixels = new int [SIZE * SIZE];
