@@ -9,12 +9,23 @@ public class Sprite {
 	
 	
 	// Creating new static instance of Sprite class for the grass
-	public static Sprite grass = new Sprite(16, 3, 6, SpriteSheet.tiles);
-	public static Sprite flower = new Sprite(16, 2, 11, SpriteSheet.tiles);
+	public static Sprite grass = new Sprite(16, 3, 3, SpriteSheet.tiles);
+	public static Sprite flower = new Sprite(16, 3, 11, SpriteSheet.tiles);
 	public static Sprite rock = new Sprite(16, 3, 10, SpriteSheet.tiles);
-	
-	public static Sprite voidSprite = new Sprite(16, 0xffffff);
+	public static Sprite voidSprite = new Sprite(16, 0x8ed2c9);
 
+	// Spawn level sprites
+
+	public static Sprite spawn_wall = new Sprite(14, 0, 0, SpriteSheet.spawn_level);
+	public static Sprite spawn_sand = new Sprite(14, 0, 4, SpriteSheet.spawn_level);
+	public static Sprite spawn_grass = new Sprite(16, 0, 7, SpriteSheet.spawn_level);
+	
+    public static Sprite spawn_wall_d = new Sprite(16, 0, 0, SpriteSheet.spawn_level);
+//	public static Sprite spawn_sand_d = new Sprite(16, 1, 1, SpriteSheet.spawn_level);
+//	public static Sprite spawn_grass_d = new Sprite(16, 1, 2, SpriteSheet.spawn_level);
+
+	
+	// Player sprites
 
 	
 	public static Sprite player_f = new Sprite(32, 6, 0, SpriteSheet.tiles);
@@ -48,7 +59,7 @@ public class Sprite {
 		SIZE = size;
 		pixels = new int [SIZE * SIZE];
 		setColour(colour);
-		
+
 	}
 	
 	private void setColour(int colour) {
