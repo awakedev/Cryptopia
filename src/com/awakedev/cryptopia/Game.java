@@ -18,6 +18,7 @@ import com.awakedev.cryptopia.graphics.Screen;
 import com.awakedev.cryptopia.input.Keyboard;
 import com.awakedev.cryptopia.level.Level;
 import com.awakedev.cryptopia.level.SpawnLevel;
+import com.awakedev.cryptopia.level.TileCoordinate;
 
 // Game inherits Canvas (subclass of Canvas)
 
@@ -55,7 +56,8 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		key = new Keyboard();
 		level =  Level.spawn;
-		player = new Player(16, 100, key);
+		TileCoordinate playerSpawn = new TileCoordinate(19, 62);
+		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
 		
 		addKeyListener(key);
 	}
