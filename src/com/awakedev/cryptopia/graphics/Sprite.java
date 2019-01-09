@@ -4,6 +4,7 @@ public class Sprite {
 
 	public final int SIZE;
 	private int x, y;
+	private int width, height;
 	public int[] pixels;
 	private SpriteSheet sheet;
 	
@@ -16,11 +17,11 @@ public class Sprite {
 
 	// Spawn level sprites
 
-	public static Sprite spawn_wall = new Sprite(14, 0, 0, SpriteSheet.spawn_level);
-	public static Sprite spawn_sand = new Sprite(14, 0, 4, SpriteSheet.spawn_level);
-	public static Sprite spawn_grass = new Sprite(16, 0, 7, SpriteSheet.spawn_level);
+	public static Sprite spawn_wall = new Sprite(16, 0, 0, SpriteSheet.spawn_level);
+	public static Sprite spawn_sand = new Sprite(16, 0, 1, SpriteSheet.spawn_level);
+	public static Sprite spawn_grass = new Sprite(16, 0, 2, SpriteSheet.spawn_level);
 	
-    public static Sprite spawn_wall_d = new Sprite(16, 0, 0, SpriteSheet.spawn_level);
+    public static Sprite spawn_wall_d = new Sprite(16, 1, 0, SpriteSheet.spawn_level);
 //	public static Sprite spawn_sand_d = new Sprite(16, 1, 1, SpriteSheet.spawn_level);
 //	public static Sprite spawn_grass_d = new Sprite(16, 1, 2, SpriteSheet.spawn_level);
 
@@ -44,9 +45,16 @@ public class Sprite {
 	
 	public static Sprite player_b_1 = new Sprite(32, 5, 3, SpriteSheet.tiles);
 	public static Sprite player_b_2 = new Sprite(32, 7, 3, SpriteSheet.tiles);
+	
+	// Projectile sprites
+	
+	public static Sprite projectile_wizard = new Sprite(16, 0, 0, SpriteSheet.projectile_wizard);
+
 
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
+		this.width = size;
+		this.height = size;
 		pixels = new int [SIZE * SIZE];
 		this.x = x * size;
 		this.y = y * size;
@@ -55,20 +63,40 @@ public class Sprite {
 		
 	}
 	
+	public Sprite(int width, int height, int colour) {
+		SIZE = -1;
+		this.width = width;
+		this.height = height;
+		pixels = new int [width * height];
+		setColour(colour);
+	}
+	
 	public Sprite(int size, int colour) {
 		SIZE = size;
+		this.width = size;
+		this.height = size;
 		pixels = new int [SIZE * SIZE];
 		setColour(colour);
 
 	}
 	
 	private void setColour(int colour) {
-		for (int i = 0; i < SIZE*SIZE; i++) {
+		for (int i = 0; i < width * height; i++) {
 			pixels[i] = colour;	
 		}
 		
 	}
+	
+	public int getWidth() {
+		return width;
+		
+	}
+	
+	public int getHeight() {
+		return height;
+	}
 
+	
 	
 	private void load()	{
 		for (int y = 0; y < SIZE; y++) {

@@ -2,6 +2,7 @@ package com.awakedev.cryptopia.graphics;
 
 import java.util.Random;
 
+import com.awakedev.cryptopia.entity.projectile.Projectile;
 import com.awakedev.cryptopia.level.tile.Tile;
 
 public class Screen {
@@ -35,7 +36,20 @@ public class Screen {
 		}
 	}
 	
-	
+	public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed) {
+		if (fixed) {
+		xp -= xOffset;
+		yp -= yOffset;
+		}
+		for (int y = 0; y < sprite.getHeight(); y++) {
+			int ya = y + yp;
+			for (int x = 0; x < sprite.getWidth(); x++) {
+				int xa = x + xp;
+				if (xa < 0 || xa >= width || ya < 0 || ya >= height) continue;
+				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
+			}
+		}		
+	}
 
 	
 	public void renderTile(int xp, int yp, Tile tile) {
@@ -54,6 +68,26 @@ public class Screen {
 		}
 	}
 	
+	
+	public void renderProjectile(int xp, int yp, Projectile p) {
+		xp -= xOffset;
+		yp -= yOffset;
+		for (int y = 0; y < p.getSpriteSize(); y++) {
+			int ya = y + yp;
+			for (int x = 0; x < p.getSpriteSize(); x++) {
+				int xa = x + xp;
+				
+				// Only render tiles we can see | xa/ya are absolute values
+				if (xa < p.getSpriteSize() || xa >= width || ya < 0 || ya >= height) break;
+				if (xa < 0) xa = 0;
+				int col = p.getSprite().pixels[x+y*p.getSprite().SIZE];
+				if (col != 0xffffaec8) pixels[xa+ya*width] = col;
+			}
+		}
+	}
+	
+	
+	
 
 	public void renderPlayer(int xp, int yp, Sprite sprite) {
 		xp -= xOffset;
@@ -67,6 +101,7 @@ public class Screen {
 				if (xa < -32 || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
 				int col = sprite.pixels[x+y*32];
+
 				if (col != 0xffFFFFFF) pixels[xa+ya*width] = col;
 			}
 		}

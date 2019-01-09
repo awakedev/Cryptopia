@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 
 import com.awakedev.cryptopia.entity.mob.Player;
 import com.awakedev.cryptopia.graphics.Screen;
+import com.awakedev.cryptopia.graphics.Sprite;
 import com.awakedev.cryptopia.input.Keyboard;
 import com.awakedev.cryptopia.input.Mouse;
 import com.awakedev.cryptopia.level.Level;
@@ -131,6 +132,7 @@ public class Game extends Canvas implements Runnable {
 	public void update() {
 		key.update();
 		player.update();
+		level.update();
 		
 	}
 	
@@ -151,6 +153,8 @@ public class Game extends Canvas implements Runnable {
 		level.render(xScroll, yScroll, screen);
 		player.render(screen);
 		
+		Sprite sprite = new Sprite(60, height, 0xff);
+		screen.renderSprite(width - 60, 0, sprite, false);
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
@@ -160,8 +164,8 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Verdana", 0, 50));
 	
-		g.fillRect(Mouse.getX(), Mouse.getY(), 64, 64);
-		g.drawString("Button: " + Mouse.getButton(), 80, 80);
+	// g.fillRect(Mouse.getX(), Mouse.getY(), 64, 64);
+	//	g.drawString("Button: " + Mouse.getButton(), 80, 80);
 		g.dispose();
 		bs.show();
 	}

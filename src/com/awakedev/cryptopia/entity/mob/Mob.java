@@ -1,6 +1,9 @@
 package com.awakedev.cryptopia.entity.mob;
 
+
 import com.awakedev.cryptopia.entity.Entity;
+import com.awakedev.cryptopia.entity.projectile.Projectile;
+import com.awakedev.cryptopia.entity.projectile.WizardProjectile;
 import com.awakedev.cryptopia.graphics.Sprite;
 
 public abstract class Mob extends Entity {
@@ -8,7 +11,9 @@ public abstract class Mob extends Entity {
 	protected Sprite sprite; 
 	protected int dir = 0;
 	protected boolean moving = false;
-	
+	protected boolean walking = false;
+
+
 	public void move(int xa, int ya) {
 		if (xa != 0 && ya != 0) {
 			move(xa, 0);
@@ -36,7 +41,8 @@ public abstract class Mob extends Entity {
 	
 
 	protected void shoot(int x, int y, double dir) {
-		dir = 180 / Math.PI;
+		Projectile p = new WizardProjectile(x, y, (int) dir);
+		level.addProjectile(p);
 	}
 
 	private boolean collision(int xa, int ya) {
@@ -47,11 +53,9 @@ public abstract class Mob extends Entity {
 			if (level.getTile(xt, yt).solid()) solid = true;
 
 		}
-	
-		
-		return solid;
-		
+		return solid;	
 	}
+	
 	
 	public void render() {
 		
