@@ -16,8 +16,8 @@ import javax.swing.JFrame;
 import com.awakedev.cryptopia.entity.mob.Player;
 import com.awakedev.cryptopia.graphics.Screen;
 import com.awakedev.cryptopia.input.Keyboard;
+import com.awakedev.cryptopia.input.Mouse;
 import com.awakedev.cryptopia.level.Level;
-import com.awakedev.cryptopia.level.SpawnLevel;
 import com.awakedev.cryptopia.level.TileCoordinate;
 
 // Game inherits Canvas (subclass of Canvas)
@@ -28,9 +28,9 @@ public class Game extends Canvas implements Runnable {
 	public static  String title = "Cryptopia";
 	// Creating window and defining resolutions & scale.
 	
-	public static int width = 300;
-	public static int height = width / 16 * 9;
-	public static int scale = 3;
+	private static int width = 300;
+	private static int height = width / 16 * 9;
+	private static int scale = 3;
 	
 	
 	private Thread thread;
@@ -58,10 +58,22 @@ public class Game extends Canvas implements Runnable {
 		level =  Level.spawn;
 		TileCoordinate playerSpawn = new TileCoordinate(19, 62);
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
-		
+		player.init(level);
 		addKeyListener(key);
+		
+		Mouse mouse = new Mouse();
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+
 	}
 	
+	public static int getWindowWidth() {
+		return width * scale;
+	}
+	
+	public static int getWindowHeight() {
+		return height * scale;
+	}
 	
 
 	public synchronized void start() {
@@ -147,8 +159,9 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Verdana", 0, 50));
-		//g.drawString("X: " + player.x + ", Y: " + player.y, 350, 300);
-		// Removing graphics by disposing
+	
+		g.fillRect(Mouse.getX(), Mouse.getY(), 64, 64);
+		g.drawString("Button: " + Mouse.getButton(), 80, 80);
 		g.dispose();
 		bs.show();
 	}

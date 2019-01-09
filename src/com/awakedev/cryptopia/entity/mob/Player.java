@@ -1,8 +1,10 @@
 package com.awakedev.cryptopia.entity.mob;
 
+import com.awakedev.cryptopia.Game;
 import com.awakedev.cryptopia.graphics.Screen;
 import com.awakedev.cryptopia.graphics.Sprite;
 import com.awakedev.cryptopia.input.Keyboard;
+import com.awakedev.cryptopia.input.Mouse;
 
 public class Player extends Mob {
 
@@ -32,17 +34,30 @@ public class Player extends Mob {
 		if (input.down) ya++;
 		if (input.left) xa--;
 		if (input.right) xa++;
-		
 		if (xa != 0 || ya != 0) {
 			move (xa, ya);
 			walking = true; 
 		} else { 
 			walking = false;
 		}
+		
+		updateShooting();
 	}
-		
-		
 	
+	
+	private void updateShooting() {
+	
+		
+		if (Mouse.getButton() == 1) {
+			double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+			double dy = Mouse.getY() -  Game.getWindowHeight() / 2;
+			double dir = Math.atan2(dy, dx);
+			shoot(x, y, dir);
+		}		
+	}
+	
+	
+
 	public void render(Screen screen) {
 		if (dir == 3) {
 			sprite = Sprite.player_b;
