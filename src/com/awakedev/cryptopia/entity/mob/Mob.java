@@ -2,6 +2,7 @@ package com.awakedev.cryptopia.entity.mob;
 
 
 import com.awakedev.cryptopia.entity.Entity;
+import com.awakedev.cryptopia.entity.particle.Particle;
 import com.awakedev.cryptopia.entity.projectile.Projectile;
 import com.awakedev.cryptopia.entity.projectile.WizardProjectile;
 import com.awakedev.cryptopia.graphics.Sprite;
@@ -29,7 +30,6 @@ public abstract class Mob extends Entity {
 		if (!collision(xa, ya)) {
 			x += xa;
 			y += ya;
-		// -1, 0, 1
 		}
 	}
 	

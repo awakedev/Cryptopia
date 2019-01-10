@@ -1,5 +1,6 @@
 package com.awakedev.cryptopia.entity.projectile;
 
+import com.awakedev.cryptopia.entity.particle.Particle;
 import com.awakedev.cryptopia.graphics.Screen;
 import com.awakedev.cryptopia.graphics.Sprite;
 
@@ -19,7 +20,13 @@ public class WizardProjectile extends Projectile {
 	}
 
 	public void update() {
-		if (level.tileCollision(x, y, nx, ny, 7)) remove();
+		if (level.tileCollision(x, y, nx, ny, 7)) {
+			Particle p = new Particle((int) x, (int) y, 50, 500);
+			level.add(p);
+			System.out.println("Particle created");
+			remove();
+			}
+		
 		move();
 	}
 	
