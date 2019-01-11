@@ -6,6 +6,8 @@ import com.awakedev.cryptopia.graphics.Screen;
 import com.awakedev.cryptopia.level.Level;
 
 public abstract class Entity {
+	
+	
 	public int x, y;
 	private boolean removed = false;
 	

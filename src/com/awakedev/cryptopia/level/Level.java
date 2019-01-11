@@ -1,10 +1,9 @@
 package com.awakedev.cryptopia.level;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.awakedev.cryptopia.entity.Entity;
-import com.awakedev.cryptopia.entity.Spawner;
 import com.awakedev.cryptopia.entity.particle.Particle;
 import com.awakedev.cryptopia.entity.projectile.Projectile;
 import com.awakedev.cryptopia.graphics.Screen;
@@ -34,10 +33,7 @@ public class Level {
 	
 	public Level(String path) {
 		loadLevel(path);
-		generateLevel();
-		
-		add (new Spawner(16 * 16, 62 * 16, Spawner.Type.PARTICLE, 1000, this));
-			
+		generateLevel();			
 	}
 	
 	protected void generateLevel() {
@@ -57,18 +53,38 @@ public class Level {
 	public void update() {
 		for(int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
+			
 		}
 		for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).update();
 		}
 		for(int i = 0; i < particles.size(); i++) {
 			particles.get(i).update();
+
+		}
+		remove();
+	}
+	
+	
+	public void remove() {
+		for(int i = 0; i < entities.size(); i++) {
+			if (entities.get(i).isRemoved()) entities.remove(i);
+		}
+		for(int i = 0; i < projectiles.size(); i++) {
+			if (projectiles.get(i).isRemoved()) projectiles.remove(i);
+
+
+		}
+		for(int i = 0; i < particles.size(); i++) {
+			if (particles.get(i).isRemoved()) particles.remove(i);
+
 		}
 	}
 	
 	public List<Projectile> getProjectiles(){
 		return projectiles;
 	}
+	
 	private void time() {
 	
 	}
@@ -103,9 +119,12 @@ public class Level {
 		}
 			for(int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).render(screen);
+
 		}
 			for(int i = 0; i < particles.size(); i++) {
-				particles.get(i).render(screen);
+			particles.get(i).render(screen);
+
+
 			}
 	}
 	
