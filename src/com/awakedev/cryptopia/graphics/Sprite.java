@@ -52,7 +52,7 @@ public class Sprite {
 	
 	// Particles
 	
-	public static Sprite particle_normal = new Sprite(3, 0xffffff);
+	public static Sprite particle_normal = new Sprite(3, 0xfddddd);
 
 
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
